@@ -20,17 +20,25 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    # स्टेप 1: रनर के ग्लोबल gradle से आपके प्रोजेक्ट के लिए सही wrapper जेनरेट करना
+    # यह स्टेप क्रैश को रोकने के लिए एक डमी debug.keystore फाइल बना देगा
+    - name: Generate Dummy Keystore
+      run: |
+        keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+
     - name: Generate Gradle Wrapper
       run: gradle wrapper
 
-    # स्टेप 2: जेनरेट हुई gradlew फ़ाइल को एग्जीक्यूट करने की परमिशन देना
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # स्टेप 3: प्रोजेक्ट के अपने सही gradlew से बिल्ड करना और KSP एरर को बाईपास करना
     - name: Build Debug APK
       run: ./gradlew assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Djava.awt.headless=true"
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Nexus-Mirror-APK
+        path: app/build/outputs/apk/debug/app-debug.apk
