@@ -23,7 +23,5 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # ध्यान दें: हमने यहाँ से chmod +x gradlew वाला स्टेप हटा दिया है
-
     - name: Build Debug APK
-      run: gradle assembleDebug
+      run: gradle assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Djava.awt.headless=true" -Dksp.incremental=false -Dkotlin.compiler.execution.strategy=daemon
