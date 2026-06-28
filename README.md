@@ -1,5 +1,3 @@
-<div align="center">
-  <img src="YOUR_LOGO_URL_HERE" alt="Takano3D Logo" width="200"/>
 
   # Nexus
   **Advanced AI-Powered Application by Takano3D**
