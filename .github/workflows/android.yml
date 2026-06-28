@@ -20,8 +20,17 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
+    # स्टेप 1: रनर के ग्लोबल gradle से आपके प्रोजेक्ट के लिए सही wrapper जेनरेट करना
+    - name: Generate Gradle Wrapper
+      run: gradle wrapper
+
+    # स्टेप 2: जेनरेट हुई gradlew फ़ाइल को एग्जीक्यूट करने की परमिशन देना
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
+    # स्टेप 3: प्रोजेक्ट के अपने सही gradlew से बिल्ड करना और KSP एरर को बाईपास करना
     - name: Build Debug APK
-      run: gradle assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Djava.awt.headless=true" -Dksp.incremental=false -Dkotlin.compiler.execution.strategy=daemon
+      run: ./gradlew assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Djava.awt.headless=true"
