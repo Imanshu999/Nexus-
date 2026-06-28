@@ -1,0 +1,6 @@
+{
+  "name": "Nexus Mirror",
+  "description": "High-performance low-latency screen mirroring and remote control server for the Takano3D Nexus ecosystem.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
